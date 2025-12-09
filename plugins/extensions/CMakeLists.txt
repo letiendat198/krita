@@ -17,6 +17,7 @@ add_subdirectory( qmic )
 add_subdirectory( buginfo )
 add_subdirectory( samplescreencolor )
 add_subdirectory( dbexplorer )
+add_subdirectory( toggledocker )
 
 if (ANDROID)
     add_subdirectory( spensettings )
