@@ -403,6 +403,15 @@ KisMainWindow::KisMainWindow(QUuid uuid)
         QDockWidget *dw = createDockWidget(factory);
         if (dw) {
             dockwidgetActions[dw->toggleViewAction()->text()] = dw->toggleViewAction();
+
+            KisAction *action = d->actionManager()->createAction(docker);
+            action->setCheckable(true);
+            action->setChecked(dw->isVisible());
+            connect(action, &KisAction::toggled, this, [this, dw](bool state) {
+                const QSignalBlocker blocker(dw);
+                dw->setVisible(state);
+            });
+            connect(dw, &QDockWidget::visibilityChanged, action, &KisAction::setChecked);
         }
     }
 

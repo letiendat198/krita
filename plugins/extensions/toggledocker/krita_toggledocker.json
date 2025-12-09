@@ -1,9 +1,0 @@
-{
-    "Id": "Toggle Docker",
-    "Type": "Service",
-    "X-KDE-Library": "kritatoggledocker",
-    "X-KDE-ServiceTypes": [
-        "Krita/ViewPlugin"
-    ],
-    "X-Krita-Version": "28"
-}
