@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActionCollection version="2" name="Krita">
+  <Actions category="Krita">
+    <text>Docker Toggles</text>
+    <Action name="toggle_layer">
+      <icon>cloneLayer</icon>
+      <text>Toggle Layer Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Toggle Layer Docker</toolTip>
+      <iconText>Toggle Layer Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>true</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+  </Actions>
+</ActionCollection>
