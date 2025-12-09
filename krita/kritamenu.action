@@ -2055,7 +2055,339 @@
       <isCheckable>false</isCheckable>
       <statusTip></statusTip>
     </Action>
+  </Actions>
+  <Actions category="Dockers">
+    <Text>Dockers</Text>
+    <Action name="toolOptionsDocker">
+      <icon>drive-harddisk</icon>
+      <text>Tool Options Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Tool Options Docker</toolTip>
+      <iconText>Tool Options Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="Snapshot">
+      <icon>drive-harddisk</icon>
+      <text>Snapshot Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Snapshot Docker</toolTip>
+      <iconText>Snapshot Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="AnimationCurvesDocker">
+      <icon>interpolation_bezier</icon>
+      <text>Animation Curves Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Animation Curves Docker</toolTip>
+      <iconText>Animation Curves Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="OverviewDocker">
+      <icon>folder-pictures</icon>
+      <text>Overview Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Overview Docker</toolTip>
+      <iconText>Overview Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="PaletteDocker">
+      <icon>krita_tool_grid</icon>
+      <text>Palette Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Palette Docker</toolTip>
+      <iconText>Palette Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable></isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="PresetHistory">
+      <icon>krita_tool_lazybrush</icon>
+      <text>Brush Preset History Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Brush Preset History Docker</toolTip>
+      <iconText>Brush Preset History Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="RecorderDocker">
+      <icon>recorder_docker</icon>
+      <text>Recorder Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Recorder Docker</toolTip>
+      <iconText>Recorder Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="ArtisticColorSelector">
+      <icon>wheel-sectors</icon>
+      <text>Artistic Color Selector Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Artistic Color Selector Docker</toolTip>
+      <iconText>Artistic Color Selector Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="HistogramDocker">
+      <icon>view-preview</icon>
+      <text>Histogram Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Histogram Docker</toolTip>
+      <iconText>Histogram Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="GridDocker">
+      <icon>grid_docker</icon>
+      <text>Grid and Guides Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Grid and Guides Docker</toolTip>
+      <iconText>Grid and Guides Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="PatternDocker">
+      <icon>pattern</icon>
+      <text>Patterns Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Patterns Docker</toolTip>
+      <iconText>Patterns Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="StoryboardDocker">
+      <icon>addduplicateframe</icon>
+      <text>Storyboard Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Storyboard Docker</toolTip>
+      <iconText>Storyboard Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="TimelineDocker">
+      <icon>addblankframe</icon>
+      <text>Animation Timeline Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Animation Timeline Docker</toolTip>
+      <iconText>Animation Timeline Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="WideGamutColorSelector">
+      <icon>preferences-desktop-color</icon>
+      <text>Wide Gamut Color Selector Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Wide Gamut Color Selector Docker</toolTip>
+      <iconText>Wide Gamut Color Selector Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="OnionSkinsDocker">
+      <icon>onion_skin_options</icon>
+      <text>Onion Skins Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Onion Skins Docker</toolTip>
+      <iconText>Onion Skins Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
 
-
+    <Action name="SmallColorSelector">
+      <icon>preferences-desktop-color</icon>
+      <text>Small Color Selector Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Small Color Selector Docker</toolTip>
+      <iconText>Small Color Selector Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="LutDocker">
+      <icon>properties</icon>
+      <text>LUT Management Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>LUT Management Docker</toolTip>
+      <iconText>LUT Management Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="History">
+      <icon>prevframe</icon>
+      <text>Undo History Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Undo History Docker</toolTip>
+      <iconText>Undo History Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="TextProperties">
+      <icon>draw-text</icon>
+      <text>Text Properties Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Text Properties Docker</toolTip>
+      <iconText>Text Properties Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="TasksetDocker">
+      <icon>nextkeyframe</icon>
+      <text>Task Sets Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Task Sets Docker</toolTip>
+      <iconText>Task Sets Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="LogDocker">
+      <icon>view-list-text</icon>
+      <text>Log Viewer Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Log Viewer Docker</toolTip>
+      <iconText>Log Viewer Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="CompositionDocker">
+      <icon>view-list-details</icon>
+      <text>Compositions Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Compositions Docker</toolTip>
+      <iconText>Compositions Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="ArrangeDocker">
+      <icon>distribute-horizontal-left</icon>
+      <text>Arrange Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Arrange Docker</toolTip>
+      <iconText>Arrange Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable></isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="SvgSymbolCollectionDocker">
+      <icon>deformbrush</icon>
+      <text>Symbol Libraries Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Symbol Libraries Docker</toolTip>
+      <iconText>Symbol Libraries Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="ColorSelectorNg">
+      <icon>preferences-desktop-color</icon>
+      <text>Advanced Color Selector Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Advanced Color Selector Docker</toolTip>
+      <iconText>Advanced Color Selector Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="KisLayerBox">
+      <icon>view-choose</icon>
+      <text>Layers Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Layers Docker</toolTip>
+      <iconText>Layers Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="PresetDocker">
+      <icon>krita_tool_multihand</icon>
+      <text>Brush Presets Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Brush Presets Docker</toolTip>
+      <iconText>Brush Presets Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="ChannelDocker">
+      <icon>view-list-details</icon>
+      <text>Channels Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Channels Docker</toolTip>
+      <iconText>Channels Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="BrushHudDocker">
+      <icon>properties</icon>
+      <text>On-Canvas Brush Editor Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>On-Canvas Brush Editor Docker</toolTip>
+      <iconText>On-Canvas Brush Editor Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable></isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="TouchDocker">
+      <icon>tool_pan</icon>
+      <text>Touch Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Touch Docker</toolTip>
+      <iconText>Touch Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable></isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="SpecificColorSelector">
+      <icon>palette-library</icon>
+      <text>Specific Color Selector Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Specific Color Selector Docker</toolTip>
+      <iconText>Specific Color Selector Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="DigitalMixer">
+      <icon>lightness-increase</icon>
+      <text>Digital Colors Mixer Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Digital Colors Mixer Docker</toolTip>
+      <iconText>Digital Colors Mixer Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
+    <Action name="GamutMask">
+      <icon>gamut-mask-on</icon>
+      <text>Gamut Masks Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Gamut Masks Docker</toolTip>
+      <iconText>Gamut Masks Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
   </Actions>
 </ActionCollection>
