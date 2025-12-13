@@ -30,5 +30,9 @@ add_subdirectory(logdocker)
 add_subdirectory(snapshotdocker)
 add_subdirectory(storyboarddocker)
 add_subdirectory(widegamutcolorselector)
+<<<<<<< HEAD
 add_subdirectory(brushhud)
 add_subdirectory(textproperties)
+=======
+add_subdirectory(referencedocker)
+>>>>>>> c2ed3fcdb7 (Add reference docker plugin from template)
