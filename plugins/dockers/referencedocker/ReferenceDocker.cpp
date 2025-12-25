@@ -32,7 +32,6 @@ class ReferenceDockerDockFactory : public KoDockFactoryBase {
     {
         ReferenceDockerDock *dockWidget = new ReferenceDockerDock();
         dockWidget->setObjectName(id());
-        dockWidget->setProperty("ShowOnWelcomePage", true);
         return dockWidget;
     }
 
