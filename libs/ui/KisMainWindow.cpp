@@ -409,11 +409,15 @@ KisMainWindow::KisMainWindow(QUuid uuid)
             KisAction *action = d->actionManager()->createAction(docker);
             action->setCheckable(true);
             action->setChecked(dw->isVisible());
-            connect(action, &KisAction::toggled, this, [this, dw](bool state) {
+            connect(action, &KisAction::toggled, this, [dw](bool state) {
                 const QSignalBlocker blocker(dw);
                 dw->setVisible(state);
             });
-            connect(dw, &QDockWidget::visibilityChanged, action, &KisAction::setChecked);
+            connect(dw, &QDockWidget::visibilityChanged, action, [dw, action](bool state){
+                // Use isVisible instead of visibilityChanged to make sure
+                // dock is actually closed, not tabbed away
+                action->setChecked(dw->isVisible());
+            });
         }
     }
 
