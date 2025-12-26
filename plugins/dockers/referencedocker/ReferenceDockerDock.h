@@ -9,6 +9,7 @@
 
 class ReferenceDockerDock : public QDockWidget, public KisMainwindowObserver
 {
+    Q_OBJECT
 public:
     ReferenceDockerDock();
     QString observerName() override { return "ReferenceDockerDock"; }
@@ -16,17 +17,16 @@ public:
     void setCanvas(KoCanvasBase *canvas) override;
     void unsetCanvas() override {}
 public Q_SLOTS:
-    void loadDefaultOrClear();
-    void changeViewZoomFactor(int value);
+    void referenceImageChanged();
+    void slotZoomSliderChanged(int value);
     void changeCurrentImage(int index);
-    void fitImage();
+    void slotViewScaleChanged(qreal value);
+    void slotViewChanged();
 private:
-    KisViewManager *m_vm;
-    KisDocument *m_document;
-    QScopedPointer<Ui_WdgReferenceDocker> m_ui;
-    QScopedPointer<QGraphicsScene> m_scene;
+    KisViewManager *m_vm = nullptr;
+    KisDocument *m_document = nullptr;
+    QScopedPointer<Ui_WdgReferenceDocker> m_ui {nullptr};
     int m_index = 0;
-    qreal m_baseFactor = 0;
 };
 
 #endif // REFERENCEDOCKERDOCK_H

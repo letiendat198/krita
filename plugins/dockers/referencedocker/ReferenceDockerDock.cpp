@@ -1,5 +1,6 @@
 #include "ReferenceDockerDock.h"
 #include "KisDocument.h"
+#include "KisViewManager.h"
 #include "KoIcon.h"
 #include <kis_canvas2.h>
 #include <qgraphicsitem.h>
@@ -7,19 +8,11 @@
 ReferenceDockerDock::ReferenceDockerDock()
     : QDockWidget(i18n("Reference Docker"))
     , m_ui(new Ui_WdgReferenceDocker())
-    , m_scene(new QGraphicsScene())
 {
     QWidget *mainWidget = new QWidget(this);
     m_ui->setupUi(mainWidget);
 
-    m_ui->referenceView->setScene(m_scene.data());
-    m_ui->referenceView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_ui->referenceView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    // QRect rContent = m_ui->referenceView->contentsRect();
-    // m_ui->referenceView->setSceneRect(0, 0, rContent.width(), rContent.height());
-    // m_ui->referenceView->setAlignment(Qt::AlignLeft | Qt::AlignCenter);
-
-    m_ui->referenceView->setRenderHint(QPainter::RenderHint::SmoothPixmapTransform, true);
+    mainWidget->setContentsMargins(5,10,5,10);
 
     m_ui->btnNext->setIcon(koIcon("arrow-right"));
     connect(m_ui->btnNext, &QToolButton::clicked, this, [this]() {
@@ -32,49 +25,51 @@ ReferenceDockerDock::ReferenceDockerDock()
     });
 
     m_ui->btnReset->setIcon(koIcon("zoom-fit"));
-    connect(m_ui->btnReset, &QToolButton::clicked, this, &ReferenceDockerDock::fitImage);
+    connect(m_ui->btnReset, &QToolButton::clicked, m_ui->referenceView, &ReferenceViewWidget::resetView);
+
+    m_ui->btnSample->setIcon(koIcon("krita_tool_color_sampler"));
+    m_ui->btnSample->setCheckable(true);
 
     m_ui->sliderZoom->setMinimum(100);
     m_ui->sliderZoom->setMaximum(300);
     m_ui->sliderZoom->setSingleStep(20);
-    connect(m_ui->sliderZoom, &QSlider::valueChanged, this, &ReferenceDockerDock::changeViewZoomFactor);
+    connect(m_ui->sliderZoom, &QSlider::valueChanged, this, &ReferenceDockerDock::slotZoomSliderChanged);
+
+    connect(m_ui->referenceView, &ReferenceViewWidget::scaleChanged, this, &ReferenceDockerDock::slotViewScaleChanged);
 
     setWidget(mainWidget);
 }
 
-void ReferenceDockerDock::loadDefaultOrClear() {
+void ReferenceDockerDock::referenceImageChanged() {
+    if (!m_document) return;
+    // dbgUI<<"Reference image changed";
     KisReferenceImagesLayerSP layer = m_document->referenceImagesLayer();
 
-    if (!layer) {
-        m_scene->clear();
+    if (!layer || layer->referenceImages().size() == 0) {
+        m_ui->referenceView->clearView();
+        m_index = 0;
         return;
     }
-
-    int refImageCount = layer->referenceImages().size();
-
-    if (refImageCount == 0)  m_scene->clear();
-    else {
-        // If scene empty and have ref image. This is for when ref is first added
-        if (m_scene->items().size() == 0) changeCurrentImage(0);
-    }
+    changeCurrentImage(m_index);
 }
 
-void ReferenceDockerDock::changeViewZoomFactor(int value) {
+void ReferenceDockerDock::slotZoomSliderChanged(int value) {
+    m_ui->lblZoomPercent->setText(QString::number(value) + "%");
+
+    qreal factor = (qreal)value / (qreal)100;
+    const QSignalBlocker blocker(m_ui->referenceView);
+    m_ui->referenceView->setScale(factor);
+}
+
+void ReferenceDockerDock::slotViewScaleChanged(qreal factor) {
+    int value = factor * 100;
     m_ui->lblZoomPercent->setText(QString::number(value) + "%");
     // In case this function isn't called by slider signal
     m_ui->sliderZoom->setValue(value);
-
-    qreal factor = (qreal)value / (qreal)100;
-    // dbgUI << "Zoom with factor: " << factor;
-
-    qreal trueFactor = m_baseFactor + factor - 1;
-
-    // Won't work if we have rotate
-    m_ui->referenceView->setTransform(QTransform().scale(trueFactor, trueFactor), false);
 }
 
 void ReferenceDockerDock::changeCurrentImage(int index) {
-    // dbgUI << "Change reference image to index: " << index;
+    if (!m_document) return;
 
     KisReferenceImagesLayerSP layer = m_document->referenceImagesLayer();
     if (layer) {
@@ -82,56 +77,49 @@ void ReferenceDockerDock::changeCurrentImage(int index) {
             return;
         }
 
-        m_scene->clear();
-        QPixmap pixmap = QPixmap::fromImage(layer->referenceImages().at(index)->getImage());
-        QGraphicsPixmapItem *item = m_scene->addPixmap(pixmap);
-        item->setFlag(QGraphicsItem::ItemIsMovable, true);
-
-        fitImage();
+        m_ui->referenceView->setReferenceImage(layer->referenceImages().at(index));
 
         m_index = index;
-    }
-}
-
-void ReferenceDockerDock::fitImage() {
-    if (m_scene->items().size()) {
-        QGraphicsItem *item = m_scene->items().at(0);
-        item->setPos(0, 0);
-        m_ui->referenceView->fitInView(item, Qt::KeepAspectRatio);
-        m_ui->referenceView->centerOn(item);
-
-        m_baseFactor = m_ui->referenceView->transform().m11();
-
-        changeViewZoomFactor(100);
     }
 }
 
 void ReferenceDockerDock::setViewManager(KisViewManager* vm) {
     if (!vm) return;
 
-    // TODO: Handle view change
+    if (vm != m_vm) {
+        m_vm = vm;
+        connect(vm, &KisViewManager::viewChanged, this, &ReferenceDockerDock::slotViewChanged);
+    }
+}
+
+void ReferenceDockerDock::slotViewChanged() {
+    if (!m_vm) return;
+
+    KisDocument *document = m_vm->document();
+
+    if (document && document != m_document) {
+        if (m_document) m_document->disconnect(this);
+        m_document = document;
+
+        // We only keep one index so should reset it when view change. Stack?
+        m_index = 0;
+
+        // Handle adding the first reference or removing the last reference
+        // Anything in between don't really matter
+
+        // This signal will fire when add/delete/move ref image
+        // But when delete last ref, it fire before delete?
+        connect(document, &KisDocument::sigReferenceImagesChanged, this, &ReferenceDockerDock::referenceImageChanged);
+
+        // This signal will fire when ref layer get deleted (when ref image is 0)
+        // But oddly won't fire when a ref layer is created
+        // So I did both
+        connect(document, &KisDocument::sigReferenceImagesLayerChanged, this, &ReferenceDockerDock::referenceImageChanged);
+
+        // Force load when view change
+        referenceImageChanged();
+    }
 }
 
 // TODO: Won't show opacity/saturation change in reference tool option
-void ReferenceDockerDock::setCanvas(KoCanvasBase *canvas) {
-    if (canvas) {
-        KisView *view = static_cast<KisCanvas2*>(canvas)->imageView();
-        if (view) {
-            KisDocument *document = view->document();
-            if (document && document != m_document) {
-                m_document = document;
-
-                // This signal will fire when add/delete/move ref image
-                // But oddly won't fire when ref image drop to 0
-                connect(document, &KisDocument::sigReferenceImagesChanged, this, &ReferenceDockerDock::loadDefaultOrClear);
-
-                // This signal will fire when ref layer get deleted (when ref image is 0)
-                // But oddly won't fire when a ref layer is created
-                connect(document, &KisDocument::sigReferenceImagesLayerChanged, this, &ReferenceDockerDock::loadDefaultOrClear);
-
-                // Document startup won't send those signals so we call it once to load the reference image if any
-                loadDefaultOrClear();
-            }
-        }
-    }
-}
+void ReferenceDockerDock::setCanvas(KoCanvasBase *canvas) {}
