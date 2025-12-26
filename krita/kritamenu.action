@@ -2389,5 +2389,15 @@
       <isCheckable>True</isCheckable>
       <statusTip></statusTip>
     </Action>
+    <Action name="ReferenceDocker">
+      <icon>krita_tool_reference_images</icon>
+      <text>Reference Docker</text>
+      <whatsThis></whatsThis>
+      <toolTip>Reference Docker</toolTip>
+      <iconText>Reference Docker</iconText>
+      <shortcut></shortcut>
+      <isCheckable>True</isCheckable>
+      <statusTip></statusTip>
+    </Action>
   </Actions>
 </ActionCollection>
