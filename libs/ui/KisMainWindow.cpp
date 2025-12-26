@@ -411,7 +411,6 @@ KisMainWindow::KisMainWindow(QUuid uuid)
             action->setChecked(dw->isVisible());
             connect(action, &KisAction::toggled, this, [dw](bool state) {
                 const QSignalBlocker blocker(dw);
-                // If docker becomes a tab and not open => state will be false and docker would close
                 dw->setVisible(state);
             });
             connect(dw, &QDockWidget::visibilityChanged, action, [dw, action](bool state){
