@@ -1,6 +1,7 @@
 set(KRITA_REFERENCEDOCKER_SOURCES
     ReferenceDocker.cpp
     ReferenceDockerDock.cpp
+    ReferenceViewWidget.cpp
 )
 
 ki18n_wrap_ui(KRITA_REFERENCEDOCKER_SOURCES
