@@ -2,6 +2,7 @@
 #include "KisDocument.h"
 #include "KisViewManager.h"
 #include "KoIcon.h"
+#include "kis_canvas_resource_provider.h"
 #include <kis_canvas2.h>
 #include <qgraphicsitem.h>
 
@@ -29,13 +30,15 @@ ReferenceDockerDock::ReferenceDockerDock()
 
     m_ui->btnSample->setIcon(koIcon("krita_tool_color_sampler"));
     m_ui->btnSample->setCheckable(true);
+    connect(m_ui->btnSample, &QToolButton::toggled, m_ui->referenceView, &ReferenceViewWidget::setColorSampleMode);
 
     m_ui->sliderZoom->setMinimum(100);
-    m_ui->sliderZoom->setMaximum(300);
+    m_ui->sliderZoom->setMaximum(1000);
     m_ui->sliderZoom->setSingleStep(20);
     connect(m_ui->sliderZoom, &QSlider::valueChanged, this, &ReferenceDockerDock::slotZoomSliderChanged);
 
     connect(m_ui->referenceView, &ReferenceViewWidget::scaleChanged, this, &ReferenceDockerDock::slotViewScaleChanged);
+    connect(m_ui->referenceView, &ReferenceViewWidget::colorSampled, this, &ReferenceDockerDock::slotColorSampled);
 
     setWidget(mainWidget);
 }
@@ -45,11 +48,14 @@ void ReferenceDockerDock::referenceImageChanged() {
     // dbgUI<<"Reference image changed";
     KisReferenceImagesLayerSP layer = m_document->referenceImagesLayer();
 
+    // Clear if no ref image or ref layer removed
     if (!layer || layer->referenceImages().size() == 0) {
         m_ui->referenceView->clearView();
         m_index = 0;
         return;
     }
+
+    // Otherwise check if current index still valid and reload
     changeCurrentImage(m_index);
 }
 
@@ -64,8 +70,16 @@ void ReferenceDockerDock::slotZoomSliderChanged(int value) {
 void ReferenceDockerDock::slotViewScaleChanged(qreal factor) {
     int value = factor * 100;
     m_ui->lblZoomPercent->setText(QString::number(value) + "%");
-    // In case this function isn't called by slider signal
     m_ui->sliderZoom->setValue(value);
+}
+
+void ReferenceDockerDock::slotColorSampled(const QColor &color) {
+    if (!m_vm) return;
+    KoColor koColor = KoColor();
+    koColor.fromQColor(color);
+    m_vm->canvasResourceProvider()->setFGColor(koColor);
+
+    // m_ui->btnSample->setChecked(false);
 }
 
 void ReferenceDockerDock::changeCurrentImage(int index) {
@@ -73,9 +87,16 @@ void ReferenceDockerDock::changeCurrentImage(int index) {
 
     KisReferenceImagesLayerSP layer = m_document->referenceImagesLayer();
     if (layer) {
-        if (index >= layer->referenceImages().size() || index < 0) {
+        int count = layer->referenceImages().size();
+        // Should be redundant because ReferenceImageChanged() should be called when count drop to 0
+        if (!count) {
+            m_ui->referenceView->clearView();
             return;
         }
+        // From here, there's at least 1 ref image
+        // If index out of bound, clamp to the nearest valid index
+        if (index >= count) index = count - 1;
+        if (index < 0) index = 0;
 
         m_ui->referenceView->setReferenceImage(layer->referenceImages().at(index));
 
@@ -108,7 +129,7 @@ void ReferenceDockerDock::slotViewChanged() {
         // Anything in between don't really matter
 
         // This signal will fire when add/delete/move ref image
-        // But when delete last ref, it fire before delete?
+        // But when removing, this signal always fire before ref image list count changed???
         connect(document, &KisDocument::sigReferenceImagesChanged, this, &ReferenceDockerDock::referenceImageChanged);
 
         // This signal will fire when ref layer get deleted (when ref image is 0)
