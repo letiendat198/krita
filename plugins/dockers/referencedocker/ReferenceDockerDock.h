@@ -22,6 +22,7 @@ public Q_SLOTS:
     void changeCurrentImage(int index);
     void slotViewScaleChanged(qreal value);
     void slotViewChanged();
+    void slotColorSampled(const QColor &color);
 private:
     KisViewManager *m_vm = nullptr;
     KisDocument *m_document = nullptr;
