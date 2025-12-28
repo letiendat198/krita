@@ -2,6 +2,7 @@
 #define REFERENCEDOCKERDOCK_H
 
 #include <QDockWidget>
+#include <QPointer>
 #include <ui_WdgReferenceDocker.h>
 
 #include "KisReferenceImagesLayer.h"
@@ -16,6 +17,8 @@ public:
     void setViewManager(KisViewManager *viewManager) override;
     void setCanvas(KoCanvasBase *canvas) override;
     void unsetCanvas() override {}
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 public Q_SLOTS:
     void referenceImageChanged();
     void slotZoomSliderChanged(int value);
@@ -24,8 +27,8 @@ public Q_SLOTS:
     void slotViewChanged();
     void slotColorSampled(const QColor &color);
 private:
-    KisViewManager *m_vm = nullptr;
-    KisDocument *m_document = nullptr;
+    QPointer<KisViewManager> m_vm = nullptr;
+    QPointer<KisDocument> m_document = nullptr;
     QScopedPointer<Ui_WdgReferenceDocker> m_ui {nullptr};
     int m_index = 0;
 };

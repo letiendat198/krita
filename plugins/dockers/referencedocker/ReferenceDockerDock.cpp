@@ -13,7 +13,10 @@ ReferenceDockerDock::ReferenceDockerDock()
     QWidget *mainWidget = new QWidget(this);
     m_ui->setupUi(mainWidget);
 
-    mainWidget->setContentsMargins(5,10,5,10);
+    m_ui->controlContainer->hide();
+    m_ui->zoomContainer->hide();
+
+    mainWidget->setContentsMargins(0,10,0,10);
 
     m_ui->btnNext->setIcon(koIcon("arrow-right"));
     connect(m_ui->btnNext, &QToolButton::clicked, this, [this]() {
@@ -41,6 +44,8 @@ ReferenceDockerDock::ReferenceDockerDock()
     connect(m_ui->referenceView, &ReferenceViewWidget::colorSampled, this, &ReferenceDockerDock::slotColorSampled);
 
     setWidget(mainWidget);
+
+    setEnabled(true);
 }
 
 void ReferenceDockerDock::referenceImageChanged() {
@@ -140,6 +145,16 @@ void ReferenceDockerDock::slotViewChanged() {
         // Force load when view change
         referenceImageChanged();
     }
+}
+
+void ReferenceDockerDock::enterEvent(QEvent *event) {
+    m_ui->controlContainer->show();
+    m_ui->zoomContainer->show();
+}
+
+void ReferenceDockerDock::leaveEvent(QEvent *event) {
+    m_ui->controlContainer->hide();
+    m_ui->zoomContainer->hide();
 }
 
 // TODO: Won't show opacity/saturation change in reference tool option
