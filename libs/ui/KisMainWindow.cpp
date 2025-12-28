@@ -3155,15 +3155,16 @@ void KisMainWindow::orientationChanged()
 {
     QScreen *screen = QGuiApplication::primaryScreen();
 
+    // We are using reversed values. Because geometry returned is not the updated
+    // one, but the previous one.
+    int screenHeight = screen->geometry().width();
+    int screenWidth = screen->geometry().height();
+
     for (QWindow* window: QGuiApplication::topLevelWindows()) {
         // Android: we shouldn't transform Window managers independent of its child
         if ((window->type() == Qt::Popup)
             && (window->flags() & Qt::FramelessWindowHint) == 0
             && (window->geometry().topLeft() != QPoint(0, 0))) {
-            // We are using reversed values. Because geometry returned is not the updated
-            // one, but the previous one.
-            int screenHeight = screen->geometry().width();
-            int screenWidth = screen->geometry().height();
 
             // scaling
             int new_x = (window->position().x() * screenWidth) / screenHeight;
@@ -3186,6 +3187,30 @@ void KisMainWindow::orientationChanged()
             }
 
             window->setPosition(QPoint(new_x, new_y));
+        }
+    }
+
+    // When changing orientation, floating docks position may be out of window
+    for(QDockWidget *dock: dockWidgets()) {
+        if (dock->isFloating()) {
+            int new_x = (dock->x() * screenWidth) / screenHeight;
+            int new_y = (dock->y() * screenHeight) / screenWidth;
+
+            int dockWidth = dock->frameGeometry().width();
+            int dockHeight = dock->frameGeometry().height();
+
+            // Try best to not let the window go beyond screen.
+            if (new_x > screenWidth - dockWidth) {
+                new_x = screenWidth - dockWidth;
+                if (new_x < 0)
+                    new_x = 0;
+            }
+            if (new_y > screenHeight - dockHeight) {
+                new_y = screenHeight - dockHeight;
+                if (new_y < 0)
+                    new_y = 0;
+            }
+            dock->move(new_x, new_y);
         }
     }
 }
