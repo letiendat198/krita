@@ -5,6 +5,10 @@
 #include <QPointer>
 #include <ui_WdgReferenceDocker.h>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#include <QEnterEvent>
+#endif
+
 #include "KisReferenceImagesLayer.h"
 #include "kis_mainwindow_observer.h"
 
@@ -17,7 +21,11 @@ public:
     void setViewManager(KisViewManager *viewManager) override;
     void setCanvas(KoCanvasBase *canvas) override;
     void unsetCanvas() override {}
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    void enterEvent(QEnterEvent *event) override;
+#else
     void enterEvent(QEvent *event) override;
+#endif
     void leaveEvent(QEvent *event) override;
 public Q_SLOTS:
     void referenceImageChanged();

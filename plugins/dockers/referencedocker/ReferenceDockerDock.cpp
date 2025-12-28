@@ -147,7 +147,11 @@ void ReferenceDockerDock::slotViewChanged() {
     }
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+void ReferenceDockerDock::enterEvent(QEnterEvent *event) {
+#else
 void ReferenceDockerDock::enterEvent(QEvent *event) {
+#endif
     m_ui->controlContainer->show();
     m_ui->zoomContainer->show();
 }
