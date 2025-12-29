@@ -3155,10 +3155,19 @@ void KisMainWindow::orientationChanged()
 {
     QScreen *screen = QGuiApplication::primaryScreen();
 
-    // We are using reversed values. Because geometry returned is not the updated
-    // one, but the previous one.
-    int screenHeight = screen->geometry().width();
-    int screenWidth = screen->geometry().height();
+    // Screen geometry will change when primaryOrientation changes
+    // On some devices, primaryOrientation and orientation are inconsistent!
+    int screenWidth = screen->geometry().width();
+    int screenHeight = screen->geometry().height();
+
+    // Use orientation because primaryOrientation sometimes lags behind
+    bool isLandscape = screen->isLandscape(screen->orientation());
+    // Check if screen geometry consistent with orientation, swap if necessary
+    if ((isLandscape && screenWidth < screenHeight)
+        || (!isLandscape && screenWidth > screenHeight)) {
+        screenWidth = screen->geometry().height();
+        screenHeight = screen->geometry().width();
+    }
 
     for (QWindow* window: QGuiApplication::topLevelWindows()) {
         // Android: we shouldn't transform Window managers independent of its child
